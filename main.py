@@ -32,7 +32,7 @@ resultat = {
 
 os.makedirs("dades", exist_ok=True)
 
-nom_fitxer = f"dades/temp_{datetime.now().strftime('%Y%m%d')}.json"
+nom_fitxer = f"dades/temp_{datetime.now().strftime('%Y%m%d_%H%M')}.json"
 
 with open(nom_fitxer, "w", encoding="utf-8") as f:
     json.dump(resultat, f, indent=4, ensure_ascii=False)
