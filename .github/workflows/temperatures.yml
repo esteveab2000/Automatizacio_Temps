@@ -1,0 +1,40 @@
+name: temperatres automatiques
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+
+  workflow_dispatch:
+
+jobs:
+  executar-programa:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Clonar repositori
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instal·lar dependències
+        run: pip install -r requirements.txt
+
+      - name: Executar script
+        run: python main.py
+
+      - name: Configurar Git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Commit i push automàtic
+        run: |
+          git add dades/*.json
+          git commit -m "Afegit fitxer meteo automàtic" || echo "Sense canvis"
+          git push
